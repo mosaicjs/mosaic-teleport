@@ -13,6 +13,9 @@ function getServerHandler(basePath, adapter) {
         return teleport.Promise.resolve().then(function() {
             var params = req.params = req.params || {};
             var path = params.path || params['0'] || '';
+            if (path[0] !== '/') {
+                path = '/' + path;
+            }
             path = basePath + path;
             var options = {
                 path : path,

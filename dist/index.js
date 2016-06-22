@@ -493,10 +493,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * express applications.
 	 */
 	function getServerHandler(basePath, adapter) {
+	    basePath = basePath || '/';
+	    if (basePath.length > 0 && basePath[basePath.length - 1] === '/') {
+	        basePath = basePath.substring(0, basePath.length - 2);
+	    }
 	    return function(req, res, next) {
 	        return teleport.Promise.resolve().then(function() {
 	            var params = req.params = req.params || {};
-	            var path = params['0'];
+	            var path = params.path || params['0'] || '';
+	            if (path[0] !== '/') {
+	                path = '/' + path;
+	            }
 	            path = basePath + path;
 	            var options = {
 	                path : path,
