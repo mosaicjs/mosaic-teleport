@@ -17,13 +17,22 @@ function getServerHandler(basePath, adapter) {
                 path = '/' + path;
             }
             path = basePath + path;
+            var query = req.query || {};
+            var headers = req.headers || {};
+            var data = req.data || {};
+            var overrideKey = 'X-HTTP-Method-Override';
+            var method = //
+            headers[overrideKey] || query[overrideKey] || //
+            req.method || 'get';
+            delete query[overrideKey];
+            method = method.toLowerCase();
             var options = {
                 path : path,
-                method : params.method,
+                method : method,
                 params : params,
-                query : req.query || {},
-                headers : req.headers,
-                data : req.data
+                query : query,
+                headers : headers,
+                data : data
             };
             return adapter.handle(options);
         }).then(function(result) {
