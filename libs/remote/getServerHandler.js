@@ -19,7 +19,7 @@ function getServerHandler(basePath, adapter) {
             path = basePath + path;
             var query = req.query || {};
             var headers = req.headers || {};
-            var data = req.data || {};
+            var data = req.data || req.body || {};
             var overrideKey = 'X-HTTP-Method-Override';
             var method = //
             headers[overrideKey] || query[overrideKey] || //
